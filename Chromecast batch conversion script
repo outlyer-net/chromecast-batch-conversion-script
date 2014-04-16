@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# Batch Convert Script by Stefano
+# Batch Convert Script by SteVenTrux
 # The Purpose of this Script is to batch convert any video file to mp4 or mkv format for chromecast compatibility
 # this script only convert necessary tracks if the video is already
 # in H.264 format it won't convert it saving your time!
