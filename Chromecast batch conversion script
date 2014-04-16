@@ -14,7 +14,6 @@
 # sourcedir is the directory where to be converted videos are
 # indir is the directory where converted video will be created
 
-
 # usage:
 #########################
 #########################
@@ -151,8 +150,6 @@ do
 	
 done
 	echo ALL Processed!
-
-
 
 ###################
 echo "DONE"
