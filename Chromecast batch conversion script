@@ -48,11 +48,16 @@ fi
 
 # Target dir
 indir=$3
+if [[ $indir ]]; then 
 if mkdir -p $indir/castable
 	then
 	 echo "Using $indir/castable as Output Folder"
 	else
 	 echo "Error: Check if you have the rights to write in $indir"
+	 exit
+fi
+	else
+	 echo "Error: Check if you have set an output folder"
 	 exit
 fi
 
