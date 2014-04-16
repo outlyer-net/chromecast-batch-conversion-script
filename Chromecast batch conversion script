@@ -155,5 +155,5 @@ done
 	echo ALL Processed!
 
 ###################
-echo "DONE"
+echo "DONE, your video files are chromecast ready"
 exit
