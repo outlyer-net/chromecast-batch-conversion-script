@@ -75,7 +75,7 @@ if ffmpeg -formats > /dev/null 2>&1
 	 ffversion=`ffmpeg -version 2> /dev/null | grep ffmpeg | sed -n 's/ffmpeg\s//p'`
 	 echo "Your ffmpeg verson is $ffversion"
 	else
-	 echo "\nERROR:\nYou need ffmpeg installed with x264 and an aac encoder"
+	 echo "ERROR: You need ffmpeg installed with x264 and libfdk_aac encoder"
 	 exit
 fi
 
@@ -111,7 +111,7 @@ if ffmpeg -codecs 2> /dev/null | grep "libx264" > /dev/null
          exit
 fi
 
-echo "Your FFMpeg is OK\nEntering File Processing\n\n"
+echo "Your FFMpeg is OK Entering File Processing"
 
 ################################################################
 cd "$sourcedir"
@@ -120,7 +120,7 @@ do
 	if ffmpeg -i $filelist 2>&1 | grep 'Invalid data found'		#check if it's video file
 	   then
 	   echo "ERROR File $filelist is NOT A VIDEO FILE can be converted!"
-	   exit	   
+	   continue	   
 	
 	fi
 
@@ -143,8 +143,8 @@ do
 	    acodec=libfdk_aac
 	fi
 
-
-	echo "\n\nUseing video codec: $vcodec audio codec: $acodec and Container format $outformat for\nFile: $filelist\n\n\n\nStarting Converting\n" 
+        echo "Converting $filelist"
+	echo "Video codec: $vcodec Audio codec: $acodec Container: $outformat" 
 
 # using ffmpeg for real converting
 	echo "ffmpeg -i $filelist -y -f $outformat -acodec $acodec -ab 192k -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec -vsync 0 -profile:v main -level 3.1 -qmax 22 -qmin 20 -x264opts no-cabac:ref=2 -threads 0 $indir/castable/$filelist.$outmode"
