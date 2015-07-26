@@ -168,5 +168,4 @@ done
 
 ###################
 echo "DONE, your video files are chromecast ready"
-exit
 
