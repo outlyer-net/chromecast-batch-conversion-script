@@ -146,7 +146,7 @@ do
 	    vcodec=libx264
 	fi
 
-	if ( ffmpeg -i $filelist 2>&1 | grep Audio: | grep aac ) || ( 	ffmpeg -i $filelist 2>&1 | grep Audio: | grep mp3 )	#check audio codec
+	if ffmpeg -i $filelist 2>&1 | grep Audio: | grep -E '(aac|mp3)'	#check audio codec
 	   then
 	    acodec=copy
 	   else
