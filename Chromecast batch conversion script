@@ -22,15 +22,18 @@
 #########################
 
 # Configurable options (original hardcoded value in comments):
-ABITRATE=224k      # 192k
+ABITRATE=320k      # 192k
 VBITRATE="-crf 18" # "-qmax 22 -qmin 20". [1] 18 is perceptually near-lossless
 PROFILE=high       # main. [2] Highest supported
-LEVEL=4.1          # 3.1. [2] Highest supported
+LEVEL=4.1          # 3.1. [2] Highest officially supported ([3] uses 4.2)
 VPROFILE_OPT=-vprofile # -profile:v (this varies with Ffmpeg version)
 PRESET="-preset slow"  # None defined. Defaults to medium
 QUIET=-hide_banner     # None defined. Removes the FFmpeg banner, build options, etc.
+X264OPTS="cabac=1:bframes=3" # no-cabac:ref=2 [3],[4]
 # Reference [1]: https://trac.ffmpeg.org/wiki/Encode/H.264
 #           [2]: https://developers.google.com/cast/docs/media
+#           [3]: http://www.thelins.se/johan/blog/2015/01/plex-and-chromecast/
+#           [4]: Plex's Chromecast.xml resource
 
 # working mode
 outmode=$1
@@ -159,8 +162,8 @@ do
 	echo "Video codec: $vcodec Audio codec: $acodec Container: $outformat" 
 
 # using ffmpeg for real converting
-	echo "ffmpeg $QUIET -i $filelist -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts no-cabac:ref=2 -threads 0 $indir/castable/$filelist.$outmode"
-	ffmpeg $QUIET -i "$filelist" -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts no-cabac:ref=2 -threads 0 "$indir/castable/$filelist.$outmode"
+	echo "ffmpeg $QUIET -i $filelist -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts $X264OPTS -movflags faststart -threads 0 $indir/castable/$filelist.$outmode"
+	ffmpeg $QUIET -i "$filelist" -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts $X264OPTS -movflags faststart -threads 0 "$indir/castable/$filelist.$outmode"
 
 	
 done
