@@ -127,26 +127,26 @@ echo "Your FFMpeg is OK Entering File Processing"
 cd "$sourcedir"
 for filelist in *
 do
-	if ffmpeg -i $filelist 2>&1 | grep 'Invalid data found'		#check if it's video file
+	if ffmpeg -i "$filelist" 2>&1 | grep 'Invalid data found'		#check if it's video file
 	   then
 	   echo "ERROR File $filelist is NOT A VIDEO FILE can be converted!"
 	   continue	   
 	
 	fi
 
-	if ffmpeg -i $filelist 2>&1 | grep Video: | grep h264		#check video codec
+	if ffmpeg -i "$filelist" 2>&1 | grep Video: | grep h264		#check video codec
 	   then
 	    vcodec=copy
 	   else
 	    vcodec=libx264
 	fi
 
-	if ffmpeg -i $filelist 2>&1 | grep Video: | grep "High 10"	#10 bit H.264 can't be played by Hardware.
+	if ffmpeg -i "$filelist" 2>&1 | grep Video: | grep "High 10"	#10 bit H.264 can't be played by Hardware.
 	   then
 	    vcodec=libx264
 	fi
 
-	if ffmpeg -i $filelist 2>&1 | grep Audio: | grep -E '(aac|mp3)'	#check audio codec
+	if ffmpeg -i "$filelist" 2>&1 | grep Audio: | grep -E '(aac|mp3)'	#check audio codec
 	   then
 	    acodec=copy
 	   else
