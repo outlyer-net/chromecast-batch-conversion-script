@@ -125,7 +125,7 @@ echo "Your FFMpeg is OK Entering File Processing"
 
 ################################################################
 cd "$sourcedir"
-for filelist in `ls`
+for filelist in *
 do
 	if ffmpeg -i $filelist 2>&1 | grep 'Invalid data found'		#check if it's video file
 	   then
@@ -153,7 +153,7 @@ do
 	    acodec=libfdk_aac
 	fi
 
-        echo "Converting $filelist"
+	echo "Converting $filelist"
 	echo "Video codec: $vcodec Audio codec: $acodec Container: $outformat" 
 
 # using ffmpeg for real converting
