@@ -89,7 +89,7 @@ if ffmpeg -formats > /dev/null 2>&1
 	 exit
 fi
 
-if ffmpeg -formats 2> /dev/null | grep "E mp4" > /dev/null
+if ffmpeg -formats 2> /dev/null | grep -q "E mp4"
 	then
 	 echo "Check mp4 container format ... OK"
 	else
@@ -97,7 +97,7 @@ if ffmpeg -formats 2> /dev/null | grep "E mp4" > /dev/null
 	 exit
 fi
 
-if ffmpeg -formats 2> /dev/null | grep "E matroska" > /dev/null
+if ffmpeg -formats 2> /dev/null | grep -q "E matroska"
         then
          echo "Check mkv container format ... OK"
         else
@@ -105,7 +105,7 @@ if ffmpeg -formats 2> /dev/null | grep "E matroska" > /dev/null
          exit
 fi
 
-if ffmpeg -codecs 2> /dev/null | grep "libfdk_aac" > /dev/null
+if ffmpeg -codecs 2> /dev/null | grep -q "libfdk_aac"
         then
          echo "Check AAC Audio Encoder ... OK"
         else
@@ -113,7 +113,7 @@ if ffmpeg -codecs 2> /dev/null | grep "libfdk_aac" > /dev/null
          exit
 fi
 
-if ffmpeg -codecs 2> /dev/null | grep "libx264" > /dev/null
+if ffmpeg -codecs 2> /dev/null | grep -q "libx264"
         then
          echo "Check x264 the free H.264 Video Encoder ... OK"
         else
@@ -134,20 +134,20 @@ do
 	
 	fi
 
-	if ffmpeg -i "$filelist" 2>&1 | grep Video: | grep h264		#check video codec
+	if ffmpeg -i "$filelist" 2>&1 | grep Video: | grep -q h264		#check video codec
 	   then
 	    vcodec=copy
 	   else
 	    vcodec=libx264
 	fi
 
-	if ffmpeg -i "$filelist" 2>&1 | grep Video: | grep "High 10"	#10 bit H.264 can't be played by Hardware.
+	if ffmpeg -i "$filelist" 2>&1 | grep Video: | grep -q "High 10"	#10 bit H.264 can't be played by Hardware.
 	   then
 	    vcodec=libx264
 	fi
 
 	# TODO: Chromecast supports AC3 passthrough
-	if ffmpeg -i "$filelist" 2>&1 | grep Audio: | grep -E '(aac|mp3)'	#check audio codec
+	if ffmpeg -i "$filelist" 2>&1 | grep Audio: | grep -q -E '(aac|mp3)'	#check audio codec
 	   then
 	    acodec=copy
 	   else
