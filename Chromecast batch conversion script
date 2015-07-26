@@ -28,6 +28,7 @@ PROFILE=high       # main. [2] Highest supported
 LEVEL=4.1          # 3.1. [2] Highest supported
 VPROFILE_OPT=-vprofile # -profile:v (this varies with Ffmpeg version)
 PRESET="-preset slow"  # None defined. Defaults to medium
+QUIET=-hide_banner     # None defined. Removes the FFmpeg banner, build options, etc.
 # Reference [1]: https://trac.ffmpeg.org/wiki/Encode/H.264
 #           [2]: https://developers.google.com/cast/docs/media
 
@@ -158,8 +159,8 @@ do
 	echo "Video codec: $vcodec Audio codec: $acodec Container: $outformat" 
 
 # using ffmpeg for real converting
-	echo "ffmpeg -i $filelist -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts no-cabac:ref=2 -threads 0 $indir/castable/$filelist.$outmode"
-	ffmpeg -i "$filelist" -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts no-cabac:ref=2 -threads 0 "$indir/castable/$filelist.$outmode"
+	echo "ffmpeg $QUIET -i $filelist -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts no-cabac:ref=2 -threads 0 $indir/castable/$filelist.$outmode"
+	ffmpeg $QUIET -i "$filelist" -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts no-cabac:ref=2 -threads 0 "$indir/castable/$filelist.$outmode"
 
 	
 done
