@@ -157,13 +157,18 @@ do
 	   else
 	    acodec=libfdk_aac
 	fi
+	# If the codec is not AAC, this can break playback
+	ABSF=
+	if [[ "$acodec" = libfdk_aac ]]; then
+		ABSF="-absf aac_adtstoasc"
+	fi
 
 	echo "Converting $filelist"
 	echo "Video codec: $vcodec Audio codec: $acodec Container: $outformat" 
 
 # using ffmpeg for real converting
-	echo "ffmpeg $QUIET -i $filelist -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts $X264OPTS -movflags faststart -threads 0 $indir/castable/$filelist.$outmode"
-	ffmpeg $QUIET -i "$filelist" -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 -absf aac_adtstoasc -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts $X264OPTS -movflags faststart -threads 0 "$indir/castable/$filelist.$outmode"
+	echo "ffmpeg $QUIET -i $filelist -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 $ABSF -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts $X264OPTS -movflags faststart -threads 0 $indir/castable/$filelist.$outmode"
+	ffmpeg $QUIET -i "$filelist" -y -f $outformat -acodec $acodec -ab $ABITRATE -ac 2 $ABSF -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts $X264OPTS -movflags faststart -threads 0 "$indir/castable/$filelist.$outmode"
 
 	
 done
