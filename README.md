@@ -14,3 +14,6 @@ Usage:
 or
 
     tochromecast.sh mkv /home/user/divx /home/user/chromecastvideos
+
+
+The original script can be found as a Gist at: https://gist.github.com/steventrux/10815095
