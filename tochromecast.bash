@@ -181,8 +181,14 @@ do
 		ABSF="-absf aac_adtstoasc"
 	fi
 	# Map audio track (only required for multi-track files)
-	audiotrack=$(echo "$audio" | sed -e 's/^.*Stream #//' -e 's/(.*$//')
-	videotrack=$(ffmpeg -i "$filelist" 2>&1 | grep Video: | sed -e 's/^.*Stream #//' -e 's/(.*$//')
+	# Does it have language tags?
+	if echo "$audio" | grep -qP '\d\(' ; then
+		audiotrack=$(echo "$audio" | sed -e 's/^.*Stream #//' -e 's/(.*$//')
+	else
+		audiotrack=$(echo "$audio" | sed -e 's/^.*Stream #//' -e 's/: .*$//')
+
+	fi
+	videotrack=$(ffmpeg -i "$filelist" 2>&1 | grep Video: | sed -e 's/^.*Stream #//' -e 's/(.*$//' -e 's/: .*$//')
 	if [[ ( -z "$audiotrack" ) || ( -z "$videotrack" ) ]]; then
 		echo "Track selection failed"
 		exit 1
@@ -194,6 +200,7 @@ do
 
 # using ffmpeg for real converting
 	echo "ffmpeg $QUIET -i $filelist -map $videotrack -map $audiotrack -y -f $outformat -acodec $acodec $ABITRATE -ac 2 $ABSF $LOWPASS_OPT -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts $X264OPTS -movflags faststart -threads 0 $indir/castable/$filelist.$outmode"
+exit
 	ffmpeg $QUIET -i "$filelist" -map "$videotrack" -map "$audiotrack" -y -f $outformat -acodec $acodec $ABITRATE -ac 2 $ABSF $LOWPASS_OPT -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts $X264OPTS -movflags faststart -threads 0 "$indir/castable/$filelist.$outmode"
 
 	
