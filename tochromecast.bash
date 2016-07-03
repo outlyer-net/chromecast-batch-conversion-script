@@ -200,7 +200,6 @@ do
 
 # using ffmpeg for real converting
 	echo "ffmpeg $QUIET -i $filelist -map $videotrack -map $audiotrack -y -f $outformat -acodec $acodec $ABITRATE -ac 2 $ABSF $LOWPASS_OPT -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts $X264OPTS -movflags faststart -threads 0 $indir/castable/$filelist.$outmode"
-exit
 	ffmpeg $QUIET -i "$filelist" -map "$videotrack" -map "$audiotrack" -y -f $outformat -acodec $acodec $ABITRATE -ac 2 $ABSF $LOWPASS_OPT -async 1 -vcodec $vcodec $PRESET -vsync 0 $VPROFILE_OPT $PROFILE -level $LEVEL $VBITRATE -x264opts $X264OPTS -movflags faststart -threads 0 "$indir/castable/$filelist.$outmode"
 
 	
